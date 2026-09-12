@@ -1,0 +1,25 @@
+# Compilados Java
+*.class
+target/
+bin/
+out/
+
+# Maven
+.mvn/
+!.mvn/wrapper/maven-wrapper.jar
+
+# IDE
+.vscode/
+.idea/
+*.iml
+.settings/
+.project
+.classpath
+
+# Sistema
+.DS_Store
+Thumbs.db
+
+# Configuracoes locais de conexao (nao versionar credenciais)
+*.env
+config.local.properties
