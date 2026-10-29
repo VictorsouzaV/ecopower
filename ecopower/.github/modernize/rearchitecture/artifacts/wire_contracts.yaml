@@ -1,0 +1,2 @@
+contracts: []
+reason: "A aplicação não expõe HTTP, RPC, mensageria, arquivos de integração ou outro contrato externo identificado. O contrato observável é o texto interativo do CLI e está descrito no comportamento da unidade."

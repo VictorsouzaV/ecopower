@@ -1,0 +1,33 @@
+units:
+  - name: console-application
+    trigger: cli
+    trigger_detail: "Execução de br.com.ecopower.Main e interação pelo menu textual"
+    source_anchors:
+      - path: ecopower/sistema/src/main/java/br/com/ecopower/Main.java
+        line: 6
+      - path: ecopower/sistema/src/main/java/br/com/ecopower/view/MenuView.java
+        line: 32
+      - path: ecopower/sistema/src/main/java/br/com/ecopower/view/InputView.java
+        line: 8
+      - path: ecopower/sistema/src/main/java/br/com/ecopower/view/AparelhoView.java
+        line: 10
+      - path: ecopower/sistema/src/main/java/br/com/ecopower/view/LeituraView.java
+        line: 15
+      - path: ecopower/sistema/src/main/java/br/com/ecopower/view/TarifaView.java
+        line: 7
+      - path: ecopower/sistema/src/main/java/br/com/ecopower/view/EstimativaView.java
+        line: 13
+      - path: ecopower/sistema/src/main/java/br/com/ecopower/view/MetaView.java
+        line: 10
+      - path: ecopower/sistema/src/main/java/br/com/ecopower/view/RelatorioView.java
+        line: 18
+    exported_signature:
+      - method: "void Main.main(String[])"
+        source_loc: "ecopower/sistema/src/main/java/br/com/ecopower/Main.java:6"
+        stability: frozen
+      - method: "void MenuView.iniciar()"
+        source_loc: "ecopower/sistema/src/main/java/br/com/ecopower/view/MenuView.java:32"
+        stability: must_preserve
+    dynamic_entrypoints: []
+    depends_on: []
+    shared_refs: []
