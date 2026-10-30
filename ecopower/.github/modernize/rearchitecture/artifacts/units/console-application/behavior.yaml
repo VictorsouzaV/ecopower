@@ -1,0 +1,46 @@
+unit: console-application
+side_effects:
+  - source_loc: "ecopower/sistema/src/main/java/br/com/ecopower/services/AparelhoServices.java:12"
+    effect: "Adiciona aparelhos à coleção em memória e imprime confirmação no console."
+    must_preserve: true
+  - source_loc: "ecopower/sistema/src/main/java/br/com/ecopower/services/LeituraServices.java:17"
+    effect: "Adiciona leituras indexadas por ID à coleção em memória e imprime confirmação."
+    must_preserve: true
+  - source_loc: "ecopower/sistema/src/main/java/br/com/ecopower/services/RelatoriosServices.java:19"
+    effect: "Armazena relatórios em memória e imprime o relatório e dicas no console."
+    must_preserve: true
+branches:
+  - source_loc: "ecopower/sistema/src/main/java/br/com/ecopower/view/MenuView.java:44"
+    condition: "opção do menu entre 0 e 11"
+    behavior: "Despacha a operação para a view correspondente; 0 encerra e opção desconhecida informa erro."
+    must_preserve: true
+  - source_loc: "ecopower/sistema/src/main/java/br/com/ecopower/view/EstimativaView.java:30"
+    condition: "tarifa atual ausente"
+    behavior: "Impede cálculo e informa que a tarifa deve ser configurada."
+    must_preserve: true
+  - source_loc: "ecopower/sistema/src/main/java/br/com/ecopower/view/AparelhoView.java:37"
+    condition: "índice do aparelho fora da lista"
+    behavior: "Lança IllegalArgumentException, capturada pelo menu e exibida ao usuário."
+    must_preserve: true
+  - source_loc: "ecopower/sistema/src/main/java/br/com/ecopower/services/EstimativaCustoServices.java:37"
+    condition: "dias decorridos inválidos ou maiores que dias do mês"
+    behavior: "Rejeita projeção com IllegalArgumentException."
+    must_preserve: true
+error_paths:
+  - source_loc: "ecopower/sistema/src/main/java/br/com/ecopower/view/InputView.java:15"
+    trigger: "Entrada que não pode ser convertida para inteiro ou decimal."
+    outcome: "Solicita nova entrada sem encerrar o programa."
+    contract: "Mensagem textual no console; repetição da leitura."
+    must_preserve: true
+  - source_loc: "ecopower/sistema/src/main/java/br/com/ecopower/view/MenuView.java:72"
+    trigger: "IllegalArgumentException ou IllegalStateException em uma operação."
+    outcome: "Exibe a mensagem e retorna ao menu principal."
+    contract: "Exceção não atravessa o loop principal."
+    must_preserve: true
+concurrency:
+  model: sync
+  tx_boundary:
+    source_loc: "ecopower/sistema/src/main/java/br/com/ecopower/view/MenuView.java:40"
+    scope: "Cada operação é executada de forma síncrona no loop do terminal; não há transações persistentes."
+    isolation: "não aplicável"
+    must_preserve: true

@@ -1,0 +1,2 @@
+flows: []
+reason: "Não existem unidades independentes. O estado em memória é compartilhado entre operações da mesma execução, principalmente os serviços instanciados por MenuView."

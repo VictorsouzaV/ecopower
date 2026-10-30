@@ -1,0 +1,15 @@
+unit: console-application
+commit: false
+candidate_splits:
+  - id: "ecopower/sistema/src/main/java/br/com/ecopower/view/MenuView.java:20-76"
+    drivers: [concern_split]
+    rationale: "O menu coordena a inicialização dos serviços, o despacho das opções, o tratamento global de exceções e a renderização do menu; essas responsabilidades podem evoluir em ritmos diferentes."
+    source_slice:
+      file: "ecopower/sistema/src/main/java/br/com/ecopower/view/MenuView.java"
+      lines: [20, 76]
+  - id: "ecopower/sistema/src/main/java/br/com/ecopower/services/AparelhoServices.java:10-44"
+    drivers: [concern_split, data_ownership_split]
+    rationale: "O serviço combina armazenamento, regras de alteração e mensagens de apresentação; separar repositório em memória e resultado de operação reduziria acoplamento."
+    source_slice:
+      file: "ecopower/sistema/src/main/java/br/com/ecopower/services/AparelhoServices.java"
+      lines: [10, 44]

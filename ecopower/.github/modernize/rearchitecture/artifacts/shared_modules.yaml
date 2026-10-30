@@ -1,0 +1,2 @@
+modules: []
+reason: "Há uma única unidade executável. Não foram encontrados módulos compartilhados entre unidades distintas. InputView é compartilhado internamente pelas views, mas permanece dentro da mesma unidade CLI."

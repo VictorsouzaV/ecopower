@@ -1,0 +1,4 @@
+unit: console-application
+bindings: []
+reason: "Não há framework, annotations, rotas, DI, listeners ou configuração externa. A descoberta ocorre diretamente por Main.main."
+runtime_config: []
