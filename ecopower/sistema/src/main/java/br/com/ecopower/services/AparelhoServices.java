@@ -9,7 +9,6 @@ public class AparelhoServices{
 
     public void cadastrarAparelho(Aparelho aparelho) {
         aparelhos.add(aparelho);
-            System.out.println("Aparelho cadastrado: " + aparelho.getNome());
     }
 
     public void editarAparelho(Aparelho aparelho, String novoNome, String novoComodo, int novoPotenciaEmWatts) {
@@ -24,7 +23,6 @@ public class AparelhoServices{
         aparelho.setNome(novoNome);
         aparelho.setComodo(novoComodo);
         aparelho.setPotenciaEmWatts(novoPotenciaEmWatts);
-            System.out.println("Aparelho editado: " + aparelho.getNome());
     }
 
     public void removerAparelho(Aparelho aparelho) {

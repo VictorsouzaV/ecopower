@@ -1,6 +1,14 @@
 package br.com.ecopower.model;
 
 public class TarifaEnergia {
+    public static final double MIN_TARIFA_POR_KWH = 0.01;
+    public static final double MAX_TARIFA_POR_KWH = 10.00;
+    public static final double MAX_BANDEIRA_POR_KWH = 5.00;
+    public static final double MAX_PERCENTUAL_INDIVIDUAL = 1.00;
+    public static final double MAX_PERCENTUAIS_ACUMULADOS = 1.00;
+    public static final double MAX_ILUMINACAO_PUBLICA = 1000.00;
+    public static final int MAX_MINIMO_KWH = 1000;
+
     private final double tarifaPorKWh;
     private final double valorBandeiraPorKWh;
     private final double percentualEncargosSetoriais;
@@ -10,109 +18,54 @@ public class TarifaEnergia {
     private final double iluminacaoPublica;
     private final int minimoKWh;
 
-    public TarifaEnergia(double tarifaPorKWh, double valorBandeiraPorKWh, double percentualEncargosSetoriais, double percentualICMS, double percentualPIS, double percentualCOFINS, double iluminacaoPublica, int minimoKWh) {
-        verificarTarifa(tarifaPorKWh, "tarifa por kWh");
-        verificarBandeira(valorBandeiraPorKWh, "valor da bandeira por kWh");
-        verificarPercentualEncargos(percentualEncargosSetoriais, "encargos setoriais");
-        verificarPercentualIcms(percentualICMS, "ICMS");
-        verificarPercentualPis(percentualPIS, "PIS");
-        verificarPercentualCofins(percentualCOFINS, "COFINS");
-        verificarIluminacaoPublica(iluminacaoPublica, "iluminação pública");
-        verificarMinimoKWh(minimoKWh, "mínimo de kWh");
+    public TarifaEnergia(double tarifaPorKWh, double valorBandeiraPorKWh,
+            double percentualEncargosSetoriais, double percentualICMS,
+            double percentualPIS, double percentualCOFINS,
+            double iluminacaoPublica, int minimoKWh) {
+        verificarFaixa(tarifaPorKWh, MIN_TARIFA_POR_KWH, MAX_TARIFA_POR_KWH, "tarifa por kWh");
+        verificarFaixa(valorBandeiraPorKWh, 0, MAX_BANDEIRA_POR_KWH, "bandeira por kWh");
+        verificarPercentual(percentualEncargosSetoriais, "encargos setoriais");
+        verificarPercentual(percentualICMS, "ICMS");
+        verificarPercentual(percentualPIS, "PIS");
+        verificarPercentual(percentualCOFINS, "COFINS");
+        double totalPercentuais = percentualEncargosSetoriais + percentualICMS + percentualPIS + percentualCOFINS;
+        if (!Double.isFinite(totalPercentuais) || totalPercentuais > MAX_PERCENTUAIS_ACUMULADOS) {
+            throw new IllegalArgumentException("A soma dos percentuais de encargos, ICMS, PIS e COFINS deve ser no máximo 100%.");
+        }
+        verificarFaixa(iluminacaoPublica, 0, MAX_ILUMINACAO_PUBLICA, "iluminacao publica");
+        if (minimoKWh < 1 || minimoKWh > MAX_MINIMO_KWH) {
+            throw new IllegalArgumentException("O consumo minimo faturado deve estar entre 1 e " + MAX_MINIMO_KWH + " kWh.");
+        }
 
-            this.tarifaPorKWh = tarifaPorKWh;
-            this.valorBandeiraPorKWh = valorBandeiraPorKWh;
-            this.percentualEncargosSetoriais = percentualEncargosSetoriais;
-            this.percentualICMS = percentualICMS;
-            this.percentualPIS = percentualPIS;
-            this.percentualCOFINS = percentualCOFINS;
-            this.iluminacaoPublica = iluminacaoPublica;
-            this.minimoKWh = minimoKWh;
+        this.tarifaPorKWh = tarifaPorKWh;
+        this.valorBandeiraPorKWh = valorBandeiraPorKWh;
+        this.percentualEncargosSetoriais = percentualEncargosSetoriais;
+        this.percentualICMS = percentualICMS;
+        this.percentualPIS = percentualPIS;
+        this.percentualCOFINS = percentualCOFINS;
+        this.iluminacaoPublica = iluminacaoPublica;
+        this.minimoKWh = minimoKWh;
     }
 
-    public double getTarifaPorKWh() {
-        return this.tarifaPorKWh;
-    }
+    public double getTarifaPorKWh() { return tarifaPorKWh; }
+    public double getValorBandeiraPorKWh() { return valorBandeiraPorKWh; }
+    public double getPercentualEncargosSetoriais() { return percentualEncargosSetoriais; }
+    public double getPercentualICMS() { return percentualICMS; }
+    public double getPercentualPIS() { return percentualPIS; }
+    public double getPercentualCOFINS() { return percentualCOFINS; }
+    public double getIluminacaoPublica() { return iluminacaoPublica; }
+    public double getCustoFixo() { return iluminacaoPublica; }
+    public int getMinimoKWh() { return minimoKWh; }
 
-    public double getValorBandeiraPorKWh() {
-        return this.valorBandeiraPorKWh;
-    }
-
-    public double getPercentualEncargosSetoriais() {
-        return this.percentualEncargosSetoriais;
-    }
-
-    public double getPercentualICMS() {
-        return this.percentualICMS;
-    }
-
-    public double getPercentualPIS() {
-        return this.percentualPIS;
-    }
-
-    public double getPercentualCOFINS() {
-        return this.percentualCOFINS;
-    }
-
-    public double getIluminacaoPublica() {
-        return this.iluminacaoPublica;
-    }
-
-    public double getCustoFixo() {
-        return this.iluminacaoPublica;
-    }
-
-    public int getMinimoKWh() {
-        return this.minimoKWh;
-    }
-
-    private void verificarTarifa(double tarifaPorKWh, String nome) {
-        if (tarifaPorKWh <= 0) {
-            throw new IllegalArgumentException("Erro!, " + nome + " não pode ser menor ou igual a zero!");
+    private void verificarFaixa(double valor, double minimo, double maximo, String campo) {
+        if (!Double.isFinite(valor) || valor < minimo || valor > maximo) {
+            throw new IllegalArgumentException("Valor de " + campo + " fora do limite permitido: " + minimo + " a " + maximo + ".");
         }
     }
 
-    private void verificarBandeira(double valorBandeiraPorKWh, String nome) {
-        if (valorBandeiraPorKWh <= 0) {
-            throw new IllegalArgumentException("Erro!, " + nome + " não pode ser menor ou igual a zero!");
-        }
-    }
-
-    private void verificarPercentualEncargos(double percentualEncargos, String nome) {
-        if (percentualEncargos <= 0) {
-            throw new IllegalArgumentException("Erro!, percentual de " + nome + " não pode ser menor ou igual a zero!");
-        }
-    }
-
-    private void verificarPercentualIcms(double percentualIcms, String nome) {
-        if (percentualIcms <= 0) {
-            throw new IllegalArgumentException("Erro!, percentual de " + nome + " não pode ser menor ou igual a zero!");
-        }
-    }
-
-    private void verificarIluminacaoPublica(double iluminacaoPublica, String nome) {
-        if (iluminacaoPublica <= 0) {
-            throw new IllegalArgumentException("Erro!, valor de " + nome + " não pode ser menor ou igual a zero!");
-        }
-    }
-
-
-    private void verificarPercentualPis(double percentualPis, String nome) {
-        if (percentualPis <= 0) {
-            throw new IllegalArgumentException("Erro!, percentual de " + nome + " não pode ser menor ou igual a zero!");
-        }
-    }
-
-
-    private void verificarPercentualCofins(double percentualCofins, String nome) {
-        if (percentualCofins <= 0) {
-            throw new IllegalArgumentException("Erro!, percentual de " + nome + " não pode ser menor ou igual a zero!");
-        }
-    }
-
-    private void verificarMinimoKWh(int minimoKWh, String nome) {
-        if (minimoKWh <= 0) {
-            throw new IllegalArgumentException("Erro!, valor mínimo de " + nome + " não pode ser menor ou igual a zero!");
+    private void verificarPercentual(double percentual, String campo) {
+        if (!Double.isFinite(percentual) || percentual < 0 || percentual > MAX_PERCENTUAL_INDIVIDUAL) {
+            throw new IllegalArgumentException("Percentual de " + campo + " deve estar entre 0% e 100%.");
         }
     }
 

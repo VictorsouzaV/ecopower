@@ -150,18 +150,18 @@ public class EcoPowerTest {
     }
 
     @Test
-    void tarifaRejeitaCadaParametroNaoPositivo() {
-        double[] valores = {0, -1};
-        for (double valor : valores) {
-            assertThrows(IllegalArgumentException.class, () -> tarifa(valor, 0.1, 0.1, 0.1, 0.1, 0.1, 1, 1));
-            assertThrows(IllegalArgumentException.class, () -> tarifa(0.1, valor, 0.1, 0.1, 0.1, 0.1, 1, 1));
-            assertThrows(IllegalArgumentException.class, () -> tarifa(0.1, 0.1, valor, 0.1, 0.1, 0.1, 1, 1));
-            assertThrows(IllegalArgumentException.class, () -> tarifa(0.1, 0.1, 0.1, valor, 0.1, 0.1, 1, 1));
-            assertThrows(IllegalArgumentException.class, () -> tarifa(0.1, 0.1, 0.1, 0.1, valor, 0.1, 1, 1));
-            assertThrows(IllegalArgumentException.class, () -> tarifa(0.1, 0.1, 0.1, 0.1, 0.1, valor, 1, 1));
-            assertThrows(IllegalArgumentException.class, () -> tarifa(0.1, 0.1, 0.1, 0.1, 0.1, 0.1, valor, 1));
-        }
-        assertThrows(IllegalArgumentException.class, () -> tarifa(0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 1, 0));
+    void tarifaAplicaLimitesDeValoresEPercentuais() {
+        assertThrows(IllegalArgumentException.class, () -> tarifa(0, 0, 0, 0, 0, 0, 0, 1));
+        assertThrows(IllegalArgumentException.class, () -> tarifa(10.01, 0, 0, 0, 0, 0, 0, 1));
+        assertThrows(IllegalArgumentException.class, () -> tarifa(1, 5.01, 0, 0, 0, 0, 0, 1));
+        assertThrows(IllegalArgumentException.class, () -> tarifa(1, 0, 0.51, 0.50, 0, 0, 0, 1));
+        assertThrows(IllegalArgumentException.class, () -> tarifa(1, 0, Double.NaN, 0, 0, 0, 0, 1));
+        assertThrows(IllegalArgumentException.class, () -> tarifa(1, 0, 0, 0, 0, 0, 1000.01, 1));
+        assertThrows(IllegalArgumentException.class, () -> tarifa(1, 0, 0, 0, 0, 0, 0, 1001));
+
+        TarifaEnergia semAdicionais = tarifa(0.01, 0, 0, 0, 0, 0, 0, 1);
+        assertEquals(0, semAdicionais.getValorBandeiraPorKWh());
+        assertEquals(0, semAdicionais.getIluminacaoPublica());
     }
 
     @Test
@@ -260,7 +260,6 @@ public class EcoPowerTest {
             assertThrows(IllegalArgumentException.class, () -> service.mostrarRelatorios());
             assertThrows(IllegalArgumentException.class, () -> service.adicionarRelatorio(null));
             service.adicionarRelatorio(relatorio);
-            service.mostrarAparelhoDeMaiorConsumo(relatorio);
             service.mostrarDicas(relatorio);
             service.mostrarRelatorios();
         } finally {

@@ -13,7 +13,7 @@ public class Relatorios {
     private final double consumoTotal;
     private final Map<String, Double> aparelhos;
     private final int id;
-    private static int proximo = 0;
+    private static int proximo = 1;
     private int diasDeUso;
 
     public Relatorios(int diasDeUso, List<Leitura> leituras) {
@@ -74,7 +74,7 @@ public class Relatorios {
 
     public void setAlterarDiasDeUso(int diasDeUso) {
         verificarDiasDeUso(diasDeUso);
-        this.diasDeUso = diasDeUso;
+            this.diasDeUso = diasDeUso;
     }
 
     public int getId() {
@@ -89,8 +89,7 @@ public class Relatorios {
 
     private void verificarLeituras(List<Leitura> leituras) {
         if (leituras == null || leituras.isEmpty()) {
-            throw new IllegalArgumentException(
-                    "Erro!, lista de leituras não pode ser nula ou vazia");
+            throw new IllegalArgumentException("Erro!, lista de leituras não pode ser nula ou vazia");
         }
     }
 

@@ -15,14 +15,6 @@ public class RelatoriosServices {
             System.out.println("Relatório criado e adicionado com sucesso!");
     }
 
-    public void mostrarAparelhoDeMaiorConsumo(Relatorios relatorio) {
-        verificarRelatorio(relatorio);
-
-        System.out.println("Aparelho de maior consumo: "
-                + relatorio.getNomeMaiorConsumo()
-                + " | Consumo: " + relatorio.getMaiorConsumo() + " kWh");
-    }
-
     public void mostrarRelatorios() {
         if (relatorios.isEmpty()) {
             throw new IllegalArgumentException("Erro!, nenhum relatório cadastrado");
@@ -52,14 +44,16 @@ public class RelatoriosServices {
         verificarRelatorio(relatorio);
 
         System.out.println("--- DICAS ---");
-        System.out.println("1 - O aparelho que mais consumiu foi "
-                + relatorio.getNomeMaiorConsumo()
-                + ". Reveja seu uso diário para identificar formas de economizar energia.");
-        System.out.println();
+
+        System.out.println("1 - O aparelho que mais consumiu foi " + relatorio.getNomeMaiorConsumo() + ". Reveja seu uso diário para identificar formas de economizar energia.");
+            System.out.println();
+
         System.out.println("2 - Analise o consumo dos demais aparelhos para identificar oportunidades de economia.");
-        System.out.println();
+            System.out.println();
+
         System.out.println("3 - Verifique se algum aparelho ou instalação elétrica apresenta defeito ou consumo anormal.");
-        System.out.println();
+            System.out.println();
+
         System.out.println("4 - Utilize aparelhos com boa eficiência energética e evite deixá-los ligados sem necessidade.");
     }
 

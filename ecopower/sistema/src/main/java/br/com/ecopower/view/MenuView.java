@@ -44,30 +44,54 @@ public class MenuView {
                 switch (opcao) {
                     case 1:
                         aparelhoView.cadastrar();
+                            InputView.aguardarEnter();
+                                break;
                     case 2:
                         aparelhoView.listar();
+                            InputView.aguardarEnter();
+                                break;
                     case 3:
                         aparelhoView.editar();
+                            InputView.aguardarEnter();
+                                break;
                     case 4:
                         aparelhoView.remover();
+                            InputView.aguardarEnter();    
+                                break;
                     case 5:
                         leituraView.cadastrar();
+                            InputView.aguardarEnter();
+                                break;
                     case 6:
                         leituraView.listar();
+                            InputView.aguardarEnter();
+                                break;
                     case 7:
                         tarifaView.configurar();
+                            InputView.aguardarEnter();
+                                break;
                     case 8:
                         estimativaView.exibir(tarifaView.getTarifaAtual());
+                            InputView.aguardarEnter();
+                                break;
                     case 9:
                         estimativaView.exibirProjecao(tarifaView.getTarifaAtual());
+                            InputView.aguardarEnter();
+                                break;
                     case 10:
                         metaView.definir();
+                            InputView.aguardarEnter();
+                                break;
                     case 11:
                         relatorioView.exibir();
+                            InputView.aguardarEnter();
+                                break;
                     case 0:
                         executando = false;
+                            break;
                     default:
                         System.out.println("Opção inválida, escolha uma opção válida.");
+                            InputView.aguardarEnter();
                 }
             } catch (IllegalArgumentException | IllegalStateException e) {
                 System.out.println("Não foi possível concluir a operação: " + e.getMessage());

@@ -1,7 +1,7 @@
 package br.com.ecopower.model;
 
 public class Leitura {
-    private static int proximoId = 0;
+    private static int proximoId = 1;
     private final int id;
     private String nomeDoAparelho;
     private String dataHora;

@@ -19,9 +19,15 @@ public class RelatorioView {
         int dias = InputView.lerInteiro("Quantidade de dias representados no relatório: ");
         
         List<Leitura> leituras = new ArrayList<>(leituraServices.listarLeituras().values());
+        if (leituras.isEmpty()) {
+            System.out.println("RELATORIO DE CONSUMO DE ENERGIA");
+            System.out.println("Nenhuma leitura registrada. Consumo total: 0.0 kWh");
+            System.out.println("--- DICAS ---");
+            System.out.println("Registre leituras para visualizar o consumo por aparelho e receber dicas personalizadas.");
+            return;
+        }
         Relatorios relatorio = new Relatorios(dias, leituras);
         services.adicionarRelatorio(relatorio);
-        services.mostrarAparelhoDeMaiorConsumo(relatorio);
         services.mostrarDicas(relatorio);
         services.mostrarRelatorios();
     }

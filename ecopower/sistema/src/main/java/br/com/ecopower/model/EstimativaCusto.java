@@ -42,14 +42,14 @@ public class EstimativaCusto {
     }
 
     private void verificarAdicionalBandeira(double adicionalBandeira) {
-        if (adicionalBandeira <= 0) {
-            throw new IllegalArgumentException("Erro, adicional de bandeira não pode ser menor ou igual a zero!");
+        if (adicionalBandeira < 0) {
+            throw new IllegalArgumentException("Erro, adicional de bandeira não pode ser negativo!");
         }
     }
 
     private void verificarIluminacaoPublica(double iluminacaoPublica) {
-        if (iluminacaoPublica <= 0) {
-            throw new IllegalArgumentException("Erro, valor de iluminação pública não pode ser menor ou igual a zero!");
+        if (iluminacaoPublica < 0) {
+            throw new IllegalArgumentException("Erro, valor de iluminação pública não pode ser negativo!");
         }
     }
 
