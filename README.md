@@ -13,6 +13,7 @@ O projeto está alinhado às ODS **7 (Energia Limpa e Acessível)** e **12 (Cons
 - Victor Souza
 - Fernando Martinez
 - Samuel Hungaro
+- Emily da Silva Campos
 
 ---
 
