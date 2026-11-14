@@ -44,28 +44,40 @@ public class MenuView {
                 switch (opcao) {
                     case 1:
                         aparelhoView.cadastrar();
+                        break;
                     case 2:
                         aparelhoView.listar();
+                        break;
                     case 3:
                         aparelhoView.editar();
+                        break;
                     case 4:
                         aparelhoView.remover();
+                        break;
                     case 5:
                         leituraView.cadastrar();
+                        break;
                     case 6:
                         leituraView.listar();
+                        break;
                     case 7:
                         tarifaView.configurar();
+                        break;
                     case 8:
                         estimativaView.exibir(tarifaView.getTarifaAtual());
+                        break;
                     case 9:
                         estimativaView.exibirProjecao(tarifaView.getTarifaAtual());
+                        break;
                     case 10:
                         metaView.definir();
+                        break;
                     case 11:
                         relatorioView.exibir();
+                        break;
                     case 0:
                         executando = false;
+                        break;
                     default:
                         System.out.println("Opção inválida, escolha uma opção válida.");
                 }

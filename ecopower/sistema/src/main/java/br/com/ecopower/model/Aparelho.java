@@ -1,6 +1,7 @@
 package br.com.ecopower.model;
 
 public class Aparelho {
+    private int id; // id na tabela DISPOSITIVOS (0 quando so em memoria)
     private String nome;
     private String comodo;
     private int potenciaEmWatts;
@@ -13,6 +14,14 @@ public class Aparelho {
             this.nome = nome;
             this.comodo = comodo;
             this.potenciaEmWatts = potenciaEmWatts;
+    }
+
+    public int getId() {
+        return this.id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getNome() {
