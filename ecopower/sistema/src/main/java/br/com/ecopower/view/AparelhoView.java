@@ -13,9 +13,8 @@ public class AparelhoView {
         String nome = InputView.lerTexto("Nome do aparelho: ");
         String comodo = InputView.lerTexto("Cômodo: ");
         int potencia = InputView.lerInteiro("Potência em watts: ");
-        System.out.println("Aparelho cadastrado com sucesso!");
-
         services.cadastrarAparelho(new Aparelho(nome, comodo, potencia));
+        System.out.println("Aparelho cadastrado com sucesso!");
     }
 
     public void listar() {
