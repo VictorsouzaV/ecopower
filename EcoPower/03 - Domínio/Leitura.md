@@ -12,15 +12,17 @@ status: atualizado
 ## Atributos
 | Campo | Tipo | Regra |
 |---|---|---|
-| `id` | int | |
+| `id` | int | contador em memória (não é o `id` do banco) |
 | `nomeDoAparelho` | String | |
-| `dataHora` | String | formato `dd/mm/aaaa hh:mm` (convertido por `fn_converter_data`) |
-| `horasDeUso` | double | > 0 (no banco: ≤ 744) |
+| `dataHora` | String | `dd/MM/aaaa HH:mm` — convertida para `TIMESTAMP` por `LeituraDAO.converterData` |
+| `horasDeUso` | double | > 0 |
 | `aparelho` | [Aparelho](Aparelho.md) | obrigatório |
 
 ## Cálculo
 `getConsumoEmKWh()` = potência (W) / 1000 × horas de uso.
-O banco recalcula o mesmo valor em `trg_leituras_calcula_consumo` (ver [Triggers](../04%20-%20Banco%20de%20Dados/Triggers.md)).
 
-## Concorrência
-`LeituraDAO.inserir` é `synchronized` — exclusão mútua para a coleta em segundo plano.
+O banco guarda só o `consumo_kwh` (não as horas). Ao carregar, `LeituraDAO` recalcula:
+`horas = consumo_kwh / (potência / 1000)`.
+
+## Datas aceitas
+`dd/MM/aaaa HH:mm`, `dd/MM/aaaa`, `aaaa-MM-ddTHH:mm` ou `aaaa-MM-dd`. Outro formato → "Data inválida".

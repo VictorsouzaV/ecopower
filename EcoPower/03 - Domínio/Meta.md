@@ -7,7 +7,7 @@ status: atualizado
 
 # Meta
 
-`model/Meta.java` — meta mensal de consumo. Persistida em [metas](../04%20-%20Banco%20de%20Dados/Tabelas/metas.md) (uma por mês).
+`model/Meta.java` — meta mensal de consumo. **Só em memória** por enquanto (some ao fechar o app).
 
 ## Atributos
 | Campo | Regra |
@@ -23,5 +23,6 @@ status: atualizado
 | consumo ≥ meta × % alerta | "próximo do limite" |
 | senão | "dentro do limite" |
 
-A **mesma regra** existe no banco em `sp_verificar_meta`, que grava em [alertas](../04%20-%20Banco%20de%20Dados/Tabelas/alertas.md)
-(`EXCEDIDO` / `PROXIMO_LIMITE`) — disparada pelos [Triggers](../04%20-%20Banco%20de%20Dados/Triggers.md). Situação consultável em `vw_situacao_meta` ([Views](../04%20-%20Banco%20de%20Dados/Views.md)).
+## No banco
+O schema já tem a coluna `usuarios.meta_kwh` e a tabela [alertas](../04%20-%20Banco%20de%20Dados/Tabelas/alertas.md),
+mas o app ainda não grava em nenhuma das duas. Próximo passo: um `MetaDAO` que salve a meta e registre os avisos.

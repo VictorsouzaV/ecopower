@@ -10,7 +10,7 @@ Descrição.
 
 | Coluna | Tipo | Regra |
 |---|---|---|
-| `id` | NUMBER identity | PK |
+| `id` | SERIAL | PK |
 
 Índices:
-Procedures:
+DAO:

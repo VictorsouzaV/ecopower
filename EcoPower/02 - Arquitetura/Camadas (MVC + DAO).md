@@ -10,25 +10,26 @@ view/       menu de console (MenuView, AparelhoView, LeituraView, ...)
   │
 services/   regras e lista em memória (AparelhoServices, LeituraServices, ...)
   │
-dao/        1 classe por tabela — só chama procedures pelo nome
+dao/        1 classe por tabela — SQL com PreparedStatement (JDBC)
   ▼
-Oracle      procedures/funções → triggers/views → tabelas
+PostgreSQL  tabelas de database/schema.sql
 ```
 
 | Pacote | Responsabilidade | Classes |
 |---|---|---|
 | `model` | Entidades + validação nos setters/construtores | [Aparelho](../03%20-%20Dom%C3%ADnio/Aparelho.md), [Leitura](../03%20-%20Dom%C3%ADnio/Leitura.md), [Meta](../03%20-%20Dom%C3%ADnio/Meta.md), [TarifaEnergia](../03%20-%20Dom%C3%ADnio/TarifaEnergia.md), [EstimativaCusto](../03%20-%20Dom%C3%ADnio/EstimativaCusto.md), [Relatorios](../03%20-%20Dom%C3%ADnio/Relatorios.md) |
 | `view` | Entrada/saída no console | `MenuView`, `InputView`, uma View por tela |
-| `services` | Carrega do banco ao iniciar, chama o DAO antes de alterar a memória | `AparelhoServices`, `LeituraServices`, `MetaServices`, `EstimativaCustoServices`, `RelatoriosServices` |
-| `dao` | `{call pr_...}` / `{? = call fn_...}` via JDBC | `DispositivoDAO`, `LeituraDAO`, `TarifaDAO`, `MetaDAO`, `ConexaoBD` |
+| `services` | Carrega do banco ao iniciar, chama o DAO antes de alterar a memória | `AparelhoServices`, `LeituraServices` (com banco); `MetaServices`, `EstimativaCustoServices`, `RelatoriosServices` (só memória) |
+| `dao` | SQL via JDBC (`PreparedStatement`) | `ConexaoBD`, `DispositivoDAO`, `LeituraDAO` |
 
 ## Menu → banco
-| Menu | Java chama | No banco |
+| Menu | Java chama | SQL |
 |---|---|---|
-| Iniciar | `fn_listar_dispositivos`, `fn_listar_leituras`, `fn_tarifa_atual`, `fn_meta_do_mes` | `SYS_REFCURSOR` |
-| 1 / 3 / 4 | `pr_inserir/atualizar/remover_dispositivo` | [dispositivos](../04%20-%20Banco%20de%20Dados/Tabelas/dispositivos.md) |
-| 5 | `pr_inserir_leitura` | [leituras](../04%20-%20Banco%20de%20Dados/Tabelas/leituras.md) + [Triggers](../04%20-%20Banco%20de%20Dados/Triggers.md) |
-| 7 | `pr_salvar_tarifa` | [tarifas](../04%20-%20Banco%20de%20Dados/Tabelas/tarifas.md) (histórico) |
-| 10 | `pr_salvar_meta` | `MERGE` em [metas](../04%20-%20Banco%20de%20Dados/Tabelas/metas.md) → [alertas](../04%20-%20Banco%20de%20Dados/Tabelas/alertas.md) |
+| Iniciar | `DispositivoDAO.listar()`, `LeituraDAO.listar()` | `SELECT` em [dispositivos](../04%20-%20Banco%20de%20Dados/Tabelas/dispositivos.md) e [leituras](../04%20-%20Banco%20de%20Dados/Tabelas/leituras.md) (`JOIN`) do usuário |
+| 1 | `DispositivoDAO.inserir()` | `INSERT ... RETURNING id` |
+| 3 | `DispositivoDAO.atualizar()` | `UPDATE` |
+| 4 | `DispositivoDAO.remover()` | `DELETE` (as leituras saem junto por `ON DELETE CASCADE`) |
+| 5 | `LeituraDAO.inserir()` | `INSERT` em [leituras](../04%20-%20Banco%20de%20Dados/Tabelas/leituras.md) |
+| 7, 8, 9, 10, 11 | — | nada: tarifa, meta, estimativa e relatório ficam em memória |
 
-Detalhes em [Funções e Procedures](../04%20-%20Banco%20de%20Dados/Fun%C3%A7%C3%B5es%20e%20Procedures.md). Por que assim: [Todo o SQL fica no banco](../05%20-%20Decis%C3%B5es/Todo%20o%20SQL%20fica%20no%20banco.md).
+Por que assim: [SQL direto nos DAOs](../05%20-%20Decis%C3%B5es/SQL%20direto%20nos%20DAOs.md).

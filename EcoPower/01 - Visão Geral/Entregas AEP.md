@@ -17,5 +17,5 @@ status: atualizado
 | 5 | 01/09 a 11/09 | Revisão final e consolidação | Victor Souza |
 
 ## 2ª entrega — integração com banco
-- Branch `feature/banco-oracle`
-- Ver [2026-11 Migração para Oracle](../05%20-%20Decis%C3%B5es/2026-11%20Migra%C3%A7%C3%A3o%20para%20Oracle.md)
+- Branch `feature/database-implementation`
+- Ver [2026-11 Persistência com PostgreSQL](../05%20-%20Decis%C3%B5es/2026-11%20Persist%C3%AAncia%20com%20PostgreSQL.md)

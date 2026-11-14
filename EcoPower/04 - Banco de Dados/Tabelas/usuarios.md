@@ -9,11 +9,14 @@ Cadastro do morador.
 
 | Coluna | Tipo | Regra |
 |---|---|---|
-| `id` | NUMBER identity | PK |
-| `nome` | VARCHAR2(100) | NOT NULL |
-| `email` | VARCHAR2(100) | NOT NULL, UNIQUE |
-| `tipo_usuario` | VARCHAR2(20) | `CONSUMIDOR` (padrão) ou `ADMIN` |
-| `criado_em` | TIMESTAMP | padrão `SYSTIMESTAMP` |
+| `id` | SERIAL | PK |
+| `nome` | VARCHAR(100) | NOT NULL |
+| `email` | VARCHAR(100) | NOT NULL, UNIQUE |
+| `tipo_usuario` | VARCHAR(20) | NOT NULL, padrão `CONSUMIDOR` |
+| `tarifa_kwh` | DECIMAL(10,4) | NOT NULL, padrão 0 — *ainda não usada pelo app* |
+| `meta_kwh` | DECIMAL(10,2) | NOT NULL, padrão 0 — *ainda não usada pelo app* |
 
-**Filhas:** [dispositivos](dispositivos.md), [tarifas](tarifas.md), [metas](metas.md), [alertas](alertas.md).
-Obtido/criado pelo app via `pr_obter_usuario` ([Configuração e Conexão](../../02%20-%20Arquitetura/Configura%C3%A7%C3%A3o%20e%20Conex%C3%A3o.md)).
+**Filhas:** [dispositivos](dispositivos.md), [alertas](alertas.md).
+
+O app busca o usuário pelo `app.usuario.email`; se não existir, cria com `INSERT ... RETURNING id`
+([Configuração e Conexão](../../02%20-%20Arquitetura/Configura%C3%A7%C3%A3o%20e%20Conex%C3%A3o.md)).

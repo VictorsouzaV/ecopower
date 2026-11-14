@@ -5,15 +5,14 @@ status: atualizado
 
 # alertas
 
-Avisos gravados automaticamente por `sp_verificar_meta` (chamada pelos [Triggers](../Triggers.md)). Não repete o mesmo tipo no mesmo mês.
+Avisos de meta para o usuário. **A tabela existe no schema, mas o app ainda não grava nela.**
 
 | Coluna | Tipo | Regra |
 |---|---|---|
-| `id` | NUMBER identity | PK |
-| `usuario_id` | NUMBER | FK → [usuarios](usuarios.md) (cascade) |
-| `tipo` | VARCHAR2(20) | `PROXIMO_LIMITE` ou `EXCEDIDO` |
-| `mensagem` | VARCHAR2(400) | |
-| `data_hora` | TIMESTAMP | |
-| `lido` | CHAR(1) | `S` / `N` (padrão `N`) |
+| `id` | SERIAL | PK |
+| `usuario_id` | INT | NOT NULL, FK → [usuarios](usuarios.md) (cascade) |
+| `tipo` | VARCHAR(30) | NOT NULL — ex.: `PROXIMO_LIMITE`, `EXCEDIDO` |
+| `mensagem` | TEXT | NOT NULL |
+| `data_hora` | TIMESTAMP | NOT NULL, padrão `CURRENT_TIMESTAMP` |
 
-Regra igual a `Meta.verificarConsumo()` — ver [Meta](../../03%20-%20Dom%C3%ADnio/Meta.md).
+Ideia de uso: gravar aqui o resultado de `Meta.verificarConsumo()` — ver [Meta](../../03%20-%20Dom%C3%ADnio/Meta.md).

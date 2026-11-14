@@ -7,15 +7,17 @@ status: atualizado
 
 # TarifaEnergia
 
-`model/TarifaEnergia.java` — composição da tarifa da distribuidora. Persistida em [tarifas](../04%20-%20Banco%20de%20Dados/Tabelas/tarifas.md) (guarda histórico; vale a mais recente).
+`model/TarifaEnergia.java` — composição da tarifa da distribuidora. **Só em memória** (configurada no menu 7).
 
-| Campo Java | Coluna |
+| Campo Java | Descrição |
 |---|---|
-| `tarifaPorKWh` | `tarifa_kwh` |
-| `valorBandeiraPorKWh` | `bandeira_kwh` |
-| `percentualEncargosSetoriais` | `pct_encargos` |
-| `percentualICMS` / `PIS` / `COFINS` | `pct_icms` / `pct_pis` / `pct_cofins` |
-| `iluminacaoPublica` | `iluminacao_publica` |
-| `minimoKWh` | `minimo_kwh` |
+| `tarifaPorKWh` | R$ por kWh |
+| `valorBandeiraPorKWh` | adicional da bandeira tarifária |
+| `percentualEncargosSetoriais` | encargos |
+| `percentualICMS` / `PIS` / `COFINS` | impostos |
+| `iluminacaoPublica` | valor fixo |
+| `minimoKWh` | consumo mínimo faturado |
 
 Percentuais entre 0 e 1. Usada por [EstimativaCusto](EstimativaCusto.md).
+
+> O schema tem a coluna `usuarios.tarifa_kwh` (só o valor do kWh), mas o app ainda não lê nem grava nela.
